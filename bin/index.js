@@ -27,12 +27,13 @@ let input = fs.readFileSync('src/index.js', 'utf8');
 write(pkg.module, input);
 
 // transform ESM -> CJS exports
-write(pkg.main, input.replace('export function', 'function').replace(
+write(pkg.main, input.replace(/export function/g, 'function').replace(
 	'export default clsx;',
 	'module.exports = clsx;\n'
-	+ 'module.exports.clsx = clsx;'
+	+ 'module.exports.clsx = clsx;\n'
+	+ 'module.exports.selx = selx;'
 ));
 
 // transform ESM -> UMD exports
-input = input.replace('export function', 'function').replace('export default clsx;', 'return clsx.clsx=clsx, clsx;');
+input = input.replace(/export function/g, 'function').replace('export default clsx;', 'return clsx.clsx=clsx, clsx.selx=selx, clsx;');
 write(pkg.unpkg, '!function(global,factory){"object"==typeof exports&&"undefined"!=typeof module?module.exports=factory():"function"==typeof define&&define.amd?define(factory):global.clsx=factory()}(this,function(){' + input + '});');

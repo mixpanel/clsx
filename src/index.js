@@ -26,8 +26,8 @@ function toVal(mix, sep) {
 	return str;
 }
 
-function concatArgs(args, initStr, sep) {
-	var i=0, tmp, x, str=initStr;
+function concatArgs(args, sep) {
+	var i=0, tmp, x, str='';
 	while (i < args.length) {
 		if (tmp = args[i++]) {
 			if (x = toVal(tmp, sep)) {
@@ -40,13 +40,12 @@ function concatArgs(args, initStr, sep) {
 }
 
 export function clsx() {
-	var initStr='', sep=' ';
-	return concatArgs(arguments, initStr, sep);
+	return concatArgs(arguments, ' ');
 }
 
 export function selx() {
-	var initStr='.', sep='.';
-	return concatArgs(arguments, initStr, sep);
+	var str = concatArgs(arguments, '.');
+	return str && '.' + str;
 }
 
 export default clsx;
